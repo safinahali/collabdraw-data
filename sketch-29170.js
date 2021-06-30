@@ -7,7 +7,8 @@ function preload(){
 	data = loadJSON(filename);
 	extension = (filename.split('-')[1]).split('.')[0];
 	console.log(extension);
-}
+	
+ }
 
 function setup() {
 	createCanvas(windowWidth, 3000);
@@ -17,7 +18,12 @@ function setup() {
 	// this logs chat correctly for any string with chat. will work for files with different filename
 	for (var element in data){
 		var elementname = JSON.stringify(element);
-		if (elementname.includes('chat29170')){
+
+		var drawingstring = "drawings"+extension;
+		var chatstring = "chat" + extension;
+		var initialstring = "initial-coordinates" + extension;
+
+		if (elementname.includes(chatstring)){
 
 			for (var key in data[element]) {
 				console.log("Key: " + key);
@@ -28,7 +34,7 @@ function setup() {
 
 		}
 
-		else if (elementname.includes('drawings29170')){
+		else if (elementname.includes(drawingstring)){
 
 			for (var key in data[element]) {
 				// key is a single stroke
@@ -80,11 +86,14 @@ function setup() {
 
 		}
 
-		else if (elementname.includes('initial')){
+		else if (elementname.includes(initialstring)){			
 			for (var key in data[element]) {
-				console.log(data[element][key]);
-
-				//draw bezier here now
+				stroke(50,102,152);
+			    strokeWeight(12);
+			    noFill();
+			    bezier(data[element][key][0], data[element][key][1], data[element][key][2], data[element][key][3], data[element][key][4], data[element][key][5], data[element][key][6], data[element][key][7]);
+			    bezier(data[element][key][8], data[element][key][9]+500, data[element][key][10], data[element][key][11]+500, data[element][key][12], data[element][key][13]+500, data[element][key][14], data[element][key][15]+500);
+			    bezier(data[element][key][16], data[element][key][17]+1000, data[element][key][18], data[element][key][19]+1000, data[element][key][20], data[element][key][21]+1000, data[element][key][22], data[element][key][23]+1000);
 			}
 
 		}
