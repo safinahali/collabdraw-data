@@ -7,7 +7,8 @@ var threshold = 50;
 var logroom = "0";
 var ms = 0;
 var threshold = 500;
-
+var timer;
+var speed = 5;
 
 function preload(){
 	filename = 'data.json'
@@ -20,6 +21,7 @@ function setup() {
 	background(250);
 
 	text("Data logged from room: " + logroom, 20, 20);
+	timer = millis();
 	// noLoop();
 }
 
@@ -29,34 +31,10 @@ function setup() {
 function draw() {
 	ms = millis();
 	
-	// this logs chat correctly for any string with chat. will work for files with different filename
 	for (var element in data){
 		var elementname = JSON.stringify(element);
 
-		if (elementname.includes(logroom) && elementname.includes("chat")){
-
-			for (var key in data[element]) {
-				// console.log("Key: " + key);
-
-				var round = parseInt(data[element][key].round);
-
-				// this should work when pno is logged correctly with chat
-				// text("player: " + data[element][key].pno, 600, y+500*round);
-				noStroke();
-
-				// console.log(data[element][key].epoch-162572896243);
-
-				// if(ms>data[element][key].epoch-1625728962430){
-					text(data[element][key].chat, 700, y+500*round);
-					y = y+20;
-				// }
-
-				
-			}
-
-		}
-
-		else if (elementname.includes(logroom) && elementname.includes("drawings")){
+		if (elementname.includes(logroom) && elementname.includes("drawings")){
 
 			for (var key in data[element]) {
 				var threshold = 500;
@@ -77,24 +55,45 @@ function draw() {
 				      		else{
 				      			stroke(120);
 				      		}
-
 				      		
 				      		//this is the first epoch in data
-				      		if(ms>(data[element][key].epoch-1625728942340)/20){
+				      		if(ms>(data[element][key].epoch-1625728942340)/speed){
 				      			line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
-				      			// parttext.str = data[element][key].table[i].part
 
 				      			var currentpath = document.getElementById('thispart');
-				      			currentpath.innerHTML = "STATUS: round: " + round + " player: " + data[element][key].table[i].pinfo.playername + " part: " +  data[element][key].table[i].part;
-
-				      			// noStroke();
-				      			// fill(100);
-				      			// text(data[element][key].table[i].part, 600, j);
+				      			currentpath.innerHTML = "STATUS: round: " + round + " player: " + data[element][key].table[i].pinfo.playername + " part: " +  data[element][key].table[i].part + " epoch: " + data[element][key].epoch ;
 							}
+
 						threshold = threshold + 20;
 					} 
 				}
 			}
+		}
+
+
+		else if (elementname.includes(logroom) && elementname.includes("chat")){
+
+			for (var key in data[element]) {
+				ms = millis();
+				var round = parseInt(data[element][key].round);
+
+				
+				noStroke();
+
+				// this should work when pno is logged correctly with chat
+				// text("player: " + data[element][key].pno, 600, y+500*round);
+
+				text(data[element][key].epoch + " " + data[element][key].chat, 700, y+500*round);
+				y = y+20;
+
+
+					if (ms>(data[element][key].epoch-1625728942340)/speed){
+						console.log(true);
+						var currentchat = document.getElementById('thischat');
+						currentchat.innerHTML = "CHAT MSG: " + data[element][key].chat;
+					}
+			}
+
 		}
 
 		else if (elementname.includes(logroom) && elementname.includes("initial")){			
