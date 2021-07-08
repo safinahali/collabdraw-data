@@ -1,6 +1,11 @@
 let data;
 let extension;
 var y=100;
+var threshold = 50;
+// change this to log from different rooms
+var logroom = "0";
+var ms = 0;
+var threshold = 500;
 
 function preload(){
 	filename = 'data.json'
@@ -11,10 +16,17 @@ function setup() {
 	createCanvas(windowWidth, 3000);
 	background(250);
 
-	// change this to log from different rooms
-	var logroom = "0";
 	text("Data logged from room: " + logroom, 20, 20);
 
+	// noLoop();
+}
+
+
+
+
+function draw() {
+	ms = millis();
+	
 	// this logs chat correctly for any string with chat. will work for files with different filename
 	for (var element in data){
 		var elementname = JSON.stringify(element);
@@ -22,12 +34,13 @@ function setup() {
 		if (elementname.includes(logroom) && elementname.includes("chat")){
 
 			for (var key in data[element]) {
-				console.log("Key: " + key);
+				// console.log("Key: " + key);
 
 				var round = parseInt(data[element][key].round);
-				
+
 				// this should work when pno is logged correctly with chat
 				// text(data[element][key].pno, 600, y+500*round);
+				noStroke();
 				text(data[element][key].chat, 700, y+500*round);
 
 				y = y+20;
@@ -38,26 +51,37 @@ function setup() {
 		else if (elementname.includes(logroom) && elementname.includes("drawings")){
 
 			for (var key in data[element]) {
+				var threshold = 500;
 				// key is a single stroke
+				// console.log(data[element][key]);
+				if ("table" in data[element][key]) {
+					
+						for (i = 0; i<data[element][key].table.length; i++){
 
-				for (i = 0; i<data[element][key].table.length; i++){
-					noFill();
-					strokeWeight(12);
+							noFill();
+							strokeWeight(12);
 
-					var round = data[element][key].table[i].round;
-			      	
-		      		if(data[element][key].table[i].pinfo.playername == 0){
-		      			stroke(80);
-		      		}
+							var round = data[element][key].table[i].round;
+					      	
+				      		if(data[element][key].table[i].pinfo.playername == 0){
+				      			stroke(80);
+				      		}
 
-		      		else{
-		      			stroke(120);
-		      		}
+				      		else{
+				      			stroke(120);
+				      		}
 
-		      		line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
+				      		if(ms>threshold){
+				      		line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
+						}
+
+						threshold = threshold + 20;
+					} 
+					
 				}
-			}
 
+				
+			}
 		}
 
 		else if (elementname.includes(logroom) && elementname.includes("initial")){			
@@ -72,13 +96,6 @@ function setup() {
 
 		}
 	}
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-
-function draw() {
-  
+	// if (ms>1000) {clear();}
+	// console.log(ms);
 }
