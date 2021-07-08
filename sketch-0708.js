@@ -1,15 +1,18 @@
 let data;
 let extension;
 var y=100;
+var j = 100;
 var threshold = 50;
 // change this to log from different rooms
 var logroom = "0";
 var ms = 0;
 var threshold = 500;
 
+
 function preload(){
 	filename = 'data.json'
 	data = loadJSON(filename);	
+	
  }
 
 function setup() {
@@ -17,7 +20,6 @@ function setup() {
 	background(250);
 
 	text("Data logged from room: " + logroom, 20, 20);
-
 	// noLoop();
 }
 
@@ -39,11 +41,17 @@ function draw() {
 				var round = parseInt(data[element][key].round);
 
 				// this should work when pno is logged correctly with chat
-				// text(data[element][key].pno, 600, y+500*round);
+				// text("player: " + data[element][key].pno, 600, y+500*round);
 				noStroke();
-				text(data[element][key].chat, 700, y+500*round);
 
-				y = y+20;
+				// console.log(data[element][key].epoch-162572896243);
+
+				// if(ms>data[element][key].epoch-1625728962430){
+					text(data[element][key].chat, 700, y+500*round);
+					y = y+20;
+				// }
+
+				
 			}
 
 		}
@@ -57,7 +65,6 @@ function draw() {
 				if ("table" in data[element][key]) {
 					
 						for (i = 0; i<data[element][key].table.length; i++){
-
 							noFill();
 							strokeWeight(12);
 
@@ -71,16 +78,22 @@ function draw() {
 				      			stroke(120);
 				      		}
 
-				      		if(ms>threshold){
-				      		line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
-						}
+				      		
+				      		//this is the first epoch in data
+				      		if(ms>(data[element][key].epoch-1625728942340)/20){
+				      			line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
+				      			// parttext.str = data[element][key].table[i].part
 
+				      			var currentpath = document.getElementById('thispart');
+				      			currentpath.innerHTML = "STATUS: round: " + round + " player: " + data[element][key].table[i].pinfo.playername + " part: " +  data[element][key].table[i].part;
+
+				      			// noStroke();
+				      			// fill(100);
+				      			// text(data[element][key].table[i].part, 600, j);
+							}
 						threshold = threshold + 20;
 					} 
-					
 				}
-
-				
 			}
 		}
 
