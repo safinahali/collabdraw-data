@@ -38,7 +38,7 @@ function draw() {
 
 			for (var key in data[element]) {
 				var threshold = 500;
-				
+
 				if ("table" in data[element][key]) {
 					
 						for (i = 0; i<data[element][key].table.length; i++){
@@ -88,7 +88,7 @@ function draw() {
 						// this should work when pno is logged correctly with chat
 						// text("player: " + data[element][key].pno, 600, y+500*round);
 						textFont('Georgia', 20);
-						text("chat: " + data[element][key].chat, 700, y+500*round);
+						text("chat: " + data[element][key].chat, 600, y+500*round);
 						y = y+35;	
 					}	
 				}
