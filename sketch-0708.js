@@ -43,7 +43,7 @@ function draw() {
 					
 						for (i = 0; i<data[element][key].table.length; i++){
 							noFill();
-							strokeWeight(12);
+							strokeWeight(8);
 
 							var round = data[element][key].table[i].round;
 					      	
@@ -99,7 +99,7 @@ function draw() {
 		else if (elementname.includes(logroom) && elementname.includes("initial")){			
 			for (var key in data[element]) {
 				stroke(50,102,152);
-			    strokeWeight(12);
+			    strokeWeight(8);
 			    noFill();
 			    bezier(data[element][key][0], data[element][key][1], data[element][key][2], data[element][key][3], data[element][key][4], data[element][key][5], data[element][key][6], data[element][key][7]);
 			    bezier(data[element][key][8], data[element][key][9]+500, data[element][key][10], data[element][key][11]+500, data[element][key][12], data[element][key][13]+500, data[element][key][14], data[element][key][15]+500);
