@@ -88,7 +88,7 @@ function draw() {
 						// this should work when pno is logged correctly with chat
 						// text("player: " + data[element][key].pno, 600, y+500*round);
 						textFont('Georgia', 20);
-						text("chat: " + data[element][key].chat, 600, y+500*round);
+						text("chat: " + data[element][key].chat, 550, y+500*round);
 						y = y+35;	
 					}	
 				}
