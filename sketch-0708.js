@@ -8,7 +8,7 @@ var logroom = "0";
 var ms = 0;
 var threshold = 500;
 var timer;
-var speed = 5;
+var speed = 10;
 var startTime = 1625728942340;
 var chatKeysPrinted = [];
 
@@ -25,11 +25,16 @@ function setup() {
 	text("Data logged from room: " + logroom, 20, 20);
 	timer = millis();
 	// noLoop();
+	text("Speed", 600,10);
+	slider = createSlider(1, 25, 10, 5);
+    slider.position(600, 20);
+	slider.style('width', '80px');
 }
 
 
 function draw() {
 	ms = millis();
+	speed = slider.value();
 	
 	for (var element in data){
 		var elementname = JSON.stringify(element);
