@@ -9,6 +9,8 @@ var ms = 0;
 var threshold = 500;
 var timer;
 var speed = 5;
+var startTime = 1625728942340;
+var chatKeysPrinted = [];
 
 function preload(){
 	filename = 'data.json'
@@ -26,8 +28,6 @@ function setup() {
 }
 
 
-
-
 function draw() {
 	ms = millis();
 	
@@ -38,8 +38,7 @@ function draw() {
 
 			for (var key in data[element]) {
 				var threshold = 500;
-				// key is a single stroke
-				// console.log(data[element][key]);
+				
 				if ("table" in data[element][key]) {
 					
 						for (i = 0; i<data[element][key].table.length; i++){
@@ -57,11 +56,11 @@ function draw() {
 				      		}
 				      		
 				      		//this is the first epoch in data
-				      		if(ms>(data[element][key].epoch-1625728942340)/speed){
+				      		if(ms>(data[element][key].epoch-startTime)/speed){
 				      			line(data[element][key].table[i].x, data[element][key].table[i].y+500*round, data[element][key].table[i].px, data[element][key].table[i].py+500*round);
 
 				      			var currentpath = document.getElementById('thispart');
-				      			currentpath.innerHTML = "STATUS: round: " + round + " player: " + data[element][key].table[i].pinfo.playername + " part: " +  data[element][key].table[i].part + " epoch: " + data[element][key].epoch ;
+				      			currentpath.innerHTML = "STATUS: round: " + round + " player: " + data[element][key].table[i].pinfo.playername + " part: " +  data[element][key].table[i].part ;
 							}
 
 						threshold = threshold + 20;
@@ -75,23 +74,24 @@ function draw() {
 
 			for (var key in data[element]) {
 				ms = millis();
-				var round = parseInt(data[element][key].round);
-
+				var round = parseInt(data[element][key].round);	
 				
-				noStroke();
+				if (ms>(data[element][key].epoch-startTime)/speed){
+					// var currentchat = document.getElementById('thischat');
+					// currentchat.innerHTML = "CHAT MSG: " + data[element][key].chat;
 
-				// this should work when pno is logged correctly with chat
-				// text("player: " + data[element][key].pno, 600, y+500*round);
-
-				text(data[element][key].epoch + " " + data[element][key].chat, 700, y+500*round);
-				y = y+20;
-
-
-					if (ms>(data[element][key].epoch-1625728942340)/speed){
-						console.log(true);
-						var currentchat = document.getElementById('thischat');
-						currentchat.innerHTML = "CHAT MSG: " + data[element][key].chat;
-					}
+					noStroke();
+					fill(0);
+					
+					if (chatKeysPrinted.includes(key)==false){
+						chatKeysPrinted.push(key);
+						// this should work when pno is logged correctly with chat
+						// text("player: " + data[element][key].pno, 600, y+500*round);
+						textFont('Georgia', 20);
+						text("chat: " + data[element][key].chat, 700, y+500*round);
+						y = y+35;	
+					}	
+				}
 			}
 
 		}
@@ -108,6 +108,4 @@ function draw() {
 
 		}
 	}
-	// if (ms>1000) {clear();}
-	// console.log(ms);
 }
