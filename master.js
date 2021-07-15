@@ -11,6 +11,7 @@ var timer;
 var speed = 200;
 var startTime = 16000000000000;
 var chatKeysPrinted = [];
+var roomSelect = document.getElementById('roomselect');
 
 function preload(){
 	filename = 'mturk-round1.json'
@@ -43,18 +44,13 @@ function setup() {
 function draw() {
 	ms = millis();
 	// speed = slider.value();
-
-
-	var roomSelect = document.getElementById('roomselect');
 	
-
 	roomSelect.onchange = function(){
 		clear();
   		background(250);
   		logroom = roomSelect.value;
   		return;
 	}
-
 	
 	for (var element in data){
 		var elementname = JSON.stringify(element);
