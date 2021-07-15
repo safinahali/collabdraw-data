@@ -40,17 +40,17 @@ function setup() {
 // 	 console.log("first time is " + draws[0]["epoch"]);
 }
 
+function changeroom(){
+	clear();
+	background(250);
+	logroom = roomSelect.value;
+	return;
+}
+
 
 function draw() {
 	ms = millis();
 	// speed = slider.value();
-	
-	roomSelect.onchange = function(){
-		clear();
-  		background(250);
-  		logroom = roomSelect.value;
-  		return;
-	}
 	
 	for (var element in data){
 		var elementname = JSON.stringify(element);
