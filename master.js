@@ -4,7 +4,7 @@ var y=100;
 var j = 100;
 var threshold = 50;
 // change this to log from different rooms
-var logroom = "32";
+var logroom = "2";
 var ms = 0;
 var threshold = 500;
 var timer;
@@ -14,7 +14,7 @@ var chatKeysPrinted = [];
 var roomSelect = document.getElementById('roomselect');
 
 function preload(){
-	filename = 'mturk-round1.json'
+	filename = 'room-2-valid.json'
 	data = loadJSON(filename);	
  }
 
