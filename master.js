@@ -10,7 +10,7 @@ var sortedEpochs = [];
 var drawEpochs = [];
 
 function preload(){
-	filename = 'collaborative-draw-clean-default-rtdb-export.json'
+	filename = 'collabbird-default-rtdb-export-hh-batch1.json'
 	data = loadJSON(filename);	
  }
 
@@ -32,19 +32,15 @@ function changeroom(){
 	return;
 }
 
-// function changeround(){
-// 	clear();
-// 	background(250);
-// 	var roundSelect = document.getElementById('roundselect');
-// 	var loground = roundSelect.value;
-// 	return;
-// }
+//CHANGES FROM PREVIOUS LOG OF CLEAN DATA: 
+// 1. word room is removed from the logroom for all three
+// 2. plyerinfo.playername is now just pno for drawings
 
 function sortEpochs(){
 	for (var element in data){
 		var elementname = JSON.stringify(element);
 		//if it is a drawing from room 0
-		if (elementname.includes("room"+logroom+":") && elementname.includes("drawings")){
+		if (elementname.includes("\"" + logroom+":") && elementname.includes("drawings")){
 			for (var key in data[element]) {
 				if("epoch" in data[element][key]){
 					drawEpochs.push(data[element][key].epoch);
@@ -60,7 +56,7 @@ function makeDrawings(logroom) {
 	for (var element in data){
 		var elementname = JSON.stringify(element);
 		//if it is a drawing from room 0
-		if (elementname.includes("room"+logroom+":") && elementname.includes("drawings")){
+		if (elementname.includes("\"" +logroom+":") && elementname.includes("drawings")){
 
 			for (var key in data[element]) {
 				
@@ -79,8 +75,8 @@ function makeDrawings(logroom) {
 							// for(j = 0; j<sortedEpochs.length; j++){
 								// if(sortedEpochs[3] < data[element][key].epoch < sortedEpochs[4]){
 									//different colors for different users
-									console.log(data[element][key].table[i].pinfo.playername);
-						      		if(data[element][key].table[i].pinfo.playername%2 == 0){
+									console.log(data[element][key].table[i].pno);
+						      		if(data[element][key].table[i].pno%2 == 0){
 						      			stroke(100,0,20);
 						      		}
 						      		else{
@@ -98,35 +94,30 @@ function makeDrawings(logroom) {
 		}
 
 
-		// else if (elementname.includes("room"+logroom+":") && elementname.includes("chat")){
-		// 	y=100;
+		else if (elementname.includes("\"" + logroom+":") && elementname.includes("chat")){
+			y=100;
 			
 
-		// 	for (var key in data[element]) {
-		// 		var round = parseInt(data[element][key].round);	
+			for (var key in data[element]) {
+				var round = parseInt(data[element][key].round);	
 				
-		// 		if (ms>(data[element][key].epoch-startTime)/speed){
-		// 			// var currentchat = document.getElementById('thischat');
-		// 			// currentchat.innerHTML = "CHAT MSG: " + data[element][key].chat;
-
-		// 			noStroke();
-		// 			fill(0);
+				noStroke();
+				fill(0);
+				
+				if (chatKeysPrinted.includes(key)==false){
+					chatKeysPrinted.push(key);
+					// this should work when pno is logged correctly with chat
+					textFont('Georgia', 15);
+					text("player: " + data[element][key].pno + " in round: " + data[element][key].round, 600, y+300*round);
 					
-		// 			if (chatKeysPrinted.includes(key)==false){
-		// 				chatKeysPrinted.push(key);
-		// 				// this should work when pno is logged correctly with chat
-		// 				textFont('Georgia', 18);
-		// 				text("player: " + data[element][key].pno + " in round: " + data[element][key].round, 600, y+300*round);
-						
-		// 				text(data[element][key].chat, 850, y+300*round);
-		// 				y = y+35;	
-		// 			}	
-		// 		}
-		// 	}
+					text(data[element][key].chat, 850, y+300*round);
+					y = y+25;	
+				}	
+			}
 
-		// }
+		}
 
-		else if (elementname.includes("room"+logroom+":") && elementname.includes("initial")){			
+		else if (elementname.includes("\"" + logroom+":") && elementname.includes("initial")){			
 			for (var key in data[element]) {
 				stroke(50,102,152);
 			    strokeWeight(12);
